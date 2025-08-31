@@ -6,14 +6,12 @@ import {
   Stack,
   Text,
   Input,
-  Flex,
   Checkbox,
   Button,
   FormErrorMessage,
   HStack,
-  Box,
-  useToast,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -38,10 +36,7 @@ const Signin = () => {
     mutationFn: signinUser,
     onSuccess: (data) => {
       const { token } = data;
-
-      if (token) {
-        login(token);
-      }
+      if (token) login(token);
     },
     onError: (error) => {
       toast({
@@ -53,31 +48,26 @@ const Signin = () => {
   });
 
   return (
-    <Container bg="gray.50">
+    <Container bg="gray.900">
       <Center minH="100vh">
-        <Card
-          p={10}
-          borderRadius="3xl"
-          boxShadow="xl"
-          bgGradient="linear(to-br, purple.50, blue.50)"
-        >
+        <Card p={10} borderRadius="2xl" boxShadow="2xl" bg="gray.800">
           <VStack spacing={4} textAlign="center" mb={6}>
-            <Text fontWeight="bold" fontSize="3xl" bgClip="text" bgGradient="linear(to-r, purple.500, blue.500)">
+            <Text
+              fontWeight="bold"
+              fontSize="3xl"
+              bgGradient="linear(to-r, purple.400, blue.400)"
+              bgClip="text"
+            >
               Ethereum App
             </Text>
-            <Text color="gray.600" fontSize="md">
-              Enter your credentials to access your Ethereum account.
+            <Text color="gray.400" fontSize="md">
+              Enter your credentials to access your account.
             </Text>
           </VStack>
 
           <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            onSubmit={(values) => {
-              mutate(values);
-            }}
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values) => mutate(values)}
             validationSchema={signinValidationSchema}
           >
             {() => (
@@ -86,17 +76,15 @@ const Signin = () => {
                   <Field name="email">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="email" color="gray.700">
-                          Email
-                        </FormLabel>
+                        <FormLabel color="gray.300">Email</FormLabel>
                         <Input
                           {...field}
-                          name="email"
-                          type="email"
                           placeholder="Enter your email"
                           borderRadius="lg"
-                          borderColor="gray.300"
-                          focusBorderColor="purple.400"
+                          borderColor="gray.600"
+                          bg="gray.700"
+                          _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                          color="white"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
@@ -106,59 +94,56 @@ const Signin = () => {
                   <Field name="password">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="password" color="gray.700">
-                          Password
-                        </FormLabel>
+                        <FormLabel color="gray.300">Password</FormLabel>
                         <Input
                           {...field}
-                          name="password"
                           type="password"
                           placeholder="Enter your password"
                           borderRadius="lg"
-                          borderColor="gray.300"
-                          focusBorderColor="purple.400"
+                          borderColor="gray.600"
+                          bg="gray.700"
+                          _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                          color="white"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <HStack justify="space-between" pt={2}>
+                  <HStack justify="space-between">
                     <Checkbox colorScheme="purple">Remember me</Checkbox>
                     <Link to="/forgot-password">
-                      <Text fontSize="sm" color="purple.500">
+                      <Text fontSize="sm" color="purple.400">
                         Forgot password?
                       </Text>
                     </Link>
                   </HStack>
 
-                  <Box pt={4}>
+                  <Button
+                    isLoading={isLoading}
+                    type="submit"
+                    w="full"
+                    bgGradient="linear(to-r, purple.500, blue.500)"
+                    color="white"
+                    borderRadius="xl"
+                    _hover={{ bgGradient: "linear(to-r, purple.600, blue.600)" }}
+                  >
+                    Login
+                  </Button>
+
+                  <Link to="/signup">
                     <Button
-                      isLoading={isLoading}
+                      variant="outline"
+                      mt={3}
                       w="full"
-                      type="submit"
-                      bgGradient="linear(to-r, purple.500, blue.500)"
-                      color="white"
-                      _hover={{ bgGradient: "linear(to-r, purple.600, blue.600)" }}
-                      borderRadius="lg"
-                      boxShadow="md"
+                      borderColor="purple.400"
+                      color="purple.400"
+                      borderRadius="xl"
+                      _hover={{ bg: "gray.700" }}
                     >
-                      Login
+                      Create Account
                     </Button>
-                    <Link to="/signup">
-                      <Button
-                        variant="outline"
-                        mt={3}
-                        w="full"
-                        borderColor="purple.500"
-                        color="purple.500"
-                        borderRadius="lg"
-                        _hover={{ bg: "purple.50" }}
-                      >
-                        Create Account
-                      </Button>
-                    </Link>
-                  </Box>
+                  </Link>
                 </Stack>
               </Form>
             )}

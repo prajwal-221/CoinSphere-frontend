@@ -10,9 +10,8 @@ import {
   Checkbox,
   Button,
   FormErrorMessage,
-  useToast,
   VStack,
-  Box,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -43,9 +42,7 @@ const Signup = () => {
     mutationKey: ["signup"],
     mutationFn: signupUser,
     onSuccess: () => {
-      if (email) {
-        navigate(`/register-email-verify/${email}`);
-      }
+      if (email) navigate(`/register-email-verify/${email}`);
     },
     onError: (error) => {
       toast({
@@ -57,36 +54,25 @@ const Signup = () => {
   });
 
   return (
-    <Container bg="gray.50">
+    <Container bg="gray.900">
       <Center minH="100vh">
-        <Card
-          p={10}
-          borderRadius="3xl"
-          boxShadow="xl"
-          bgGradient="linear(to-br, purple.50, blue.50)"
-        >
+        <Card p={10} borderRadius="2xl" boxShadow="2xl" bg="gray.800">
           <VStack spacing={4} textAlign="center" mb={6}>
             <Text
               fontWeight="bold"
               fontSize="3xl"
+              bgGradient="linear(to-r, purple.400, blue.400)"
               bgClip="text"
-              bgGradient="linear(to-r, purple.500, blue.500)"
             >
               Ethereum App
             </Text>
-            <Text color="gray.600" fontSize="md">
+            <Text color="gray.400" fontSize="md">
               Create a free account by filling in the data below.
             </Text>
           </VStack>
 
           <Formik
-            initialValues={{
-              name: "",
-              surname: "",
-              email: "",
-              password: "",
-              repeatPassword: "",
-            }}
+            initialValues={{ name: "", surname: "", email: "", password: "", repeatPassword: "" }}
             onSubmit={(values) => {
               setEmail(values.email);
               mutate({
@@ -105,34 +91,33 @@ const Signup = () => {
                     <Field name="name">
                       {({ field, meta }) => (
                         <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                          <FormLabel htmlFor="name" color="gray.700">
-                            Name
-                          </FormLabel>
+                          <FormLabel color="gray.300">Name</FormLabel>
                           <Input
                             {...field}
-                            name="name"
                             placeholder="Enter your name"
                             borderRadius="lg"
-                            borderColor="gray.300"
-                            focusBorderColor="purple.400"
+                            borderColor="gray.600"
+                            bg="gray.700"
+                            _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                            color="white"
                           />
                           <FormErrorMessage>{meta.error}</FormErrorMessage>
                         </FormControl>
                       )}
                     </Field>
+
                     <Field name="surname">
                       {({ field, meta }) => (
                         <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                          <FormLabel htmlFor="surname" color="gray.700">
-                            Surname
-                          </FormLabel>
+                          <FormLabel color="gray.300">Surname</FormLabel>
                           <Input
                             {...field}
-                            name="surname"
                             placeholder="Enter your surname"
                             borderRadius="lg"
-                            borderColor="gray.300"
-                            focusBorderColor="purple.400"
+                            borderColor="gray.600"
+                            bg="gray.700"
+                            _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                            color="white"
                           />
                           <FormErrorMessage>{meta.error}</FormErrorMessage>
                         </FormControl>
@@ -143,17 +128,16 @@ const Signup = () => {
                   <Field name="email">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="email" color="gray.700">
-                          Email
-                        </FormLabel>
+                        <FormLabel color="gray.300">Email</FormLabel>
                         <Input
                           {...field}
-                          name="email"
                           type="email"
                           placeholder="Enter your email"
                           borderRadius="lg"
-                          borderColor="gray.300"
-                          focusBorderColor="purple.400"
+                          borderColor="gray.600"
+                          bg="gray.700"
+                          _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                          color="white"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
@@ -163,17 +147,16 @@ const Signup = () => {
                   <Field name="password">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="password" color="gray.700">
-                          Password
-                        </FormLabel>
+                        <FormLabel color="gray.300">Password</FormLabel>
                         <Input
                           {...field}
-                          name="password"
                           type="password"
                           placeholder="Enter your password"
                           borderRadius="lg"
-                          borderColor="gray.300"
-                          focusBorderColor="purple.400"
+                          borderColor="gray.600"
+                          bg="gray.700"
+                          _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                          color="white"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
@@ -183,17 +166,16 @@ const Signup = () => {
                   <Field name="repeatPassword">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="repeatPassword" color="gray.700">
-                          Repeat Password
-                        </FormLabel>
+                        <FormLabel color="gray.300">Repeat Password</FormLabel>
                         <Input
                           {...field}
-                          name="repeatPassword"
                           type="password"
                           placeholder="Repeat your password"
                           borderRadius="lg"
-                          borderColor="gray.300"
-                          focusBorderColor="purple.400"
+                          borderColor="gray.600"
+                          bg="gray.700"
+                          _focus={{ borderColor: "purple.400", bg: "gray.700" }}
+                          color="white"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
@@ -202,7 +184,7 @@ const Signup = () => {
 
                   <Checkbox colorScheme="purple">
                     I agree with{" "}
-                    <Text as="span" color="purple.500">
+                    <Text as="span" color="purple.400">
                       Terms and Conditions
                     </Text>
                   </Checkbox>
@@ -213,17 +195,16 @@ const Signup = () => {
                     w="full"
                     bgGradient="linear(to-r, purple.500, blue.500)"
                     color="white"
+                    borderRadius="xl"
                     _hover={{ bgGradient: "linear(to-r, purple.600, blue.600)" }}
-                    borderRadius="lg"
-                    boxShadow="md"
                   >
                     Create Account
                   </Button>
 
-                  <Text color="gray.600" textAlign="center">
+                  <Text color="gray.400" textAlign="center">
                     Already have an account?{" "}
                     <Link to="/signin">
-                      <Text as="span" color="purple.500">
+                      <Text as="span" color="purple.400">
                         Login
                       </Text>
                     </Link>
