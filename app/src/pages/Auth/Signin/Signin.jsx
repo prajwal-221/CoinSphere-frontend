@@ -13,7 +13,6 @@ import {
   HStack,
   Box,
   useToast,
-  Badge,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -22,7 +21,6 @@ import Card from "../../../components/Card";
 import { useMutation } from "react-query";
 import { signinUser } from "../../../api/query/userQuery";
 import useAuth from "../../../hooks/useAuth";
-import { FaEthereum } from "react-icons/fa";
 
 const signinValidationSchema = object({
   email: string().email("Email is invalid").required("Email is required"),
@@ -39,7 +37,10 @@ const Signin = () => {
     mutationFn: signinUser,
     onSuccess: (data) => {
       const { token } = data;
-      if (token) login(token);
+
+      if (token) {
+        login(token);
+      }
     },
     onError: (error) => {
       toast({
@@ -51,123 +52,74 @@ const Signin = () => {
   });
 
   return (
-    <Container maxW="lg" bg="gray.100" minH="100vh" p={0}>
+    <Container bg="white">
       <Center minH="100vh">
-        <Card p={8} shadow="2xl" rounded="3xl" bg="gray.50" w="full">
-          <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2} color="blue.600">
-            Welcome Back 👋
+        <Card>
+          <Text fontWeight="medium" textStyle="h1">
+            Welcome to Demo App
           </Text>
-          <Text fontSize="sm" color="gray.500" textAlign="center" mb={6}>
-            Sign in to continue to Crypto Dashboard
+          <Text textStyle="p2" color="black.60" mt="4">
+            Enter your credentials to access the account.
           </Text>
-
-          {/* Ethereum Info Card */}
-          <Flex
-            align="center"
-            justify="space-between"
-            bg="blue.50"
-            p={4}
-            rounded="lg"
-            mb={6}
-            shadow="sm"
-          >
-            <HStack>
-              <FaEthereum size={24} color="#3C3C3D" />
-              <Stack spacing={0}>
-                <Text fontSize="sm" color="blue.700">
-                  Ethereum Wallet
-                </Text>
-                <Text fontSize="md" fontWeight="bold">
-                  3.245 ETH
-                </Text>
-              </Stack>
-            </HStack>
-            <Badge colorScheme="blue" fontSize="0.8rem">
-              Active
-            </Badge>
-          </Flex>
-
           <Formik
-            initialValues={{ email: "", password: "" }}
-            onSubmit={(values) => mutate(values)}
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            onSubmit={(values) => {
+              mutate(values);
+            }}
             validationSchema={signinValidationSchema}
           >
             {() => (
               <Form>
-                <Stack mt="4" spacing={5}>
+                <Stack mt="10" spacing={6}>
                   <Field name="email">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel fontWeight="medium" color="blue.700">
-                          Email
-                        </FormLabel>
+                        <FormLabel htmlFor="email">Email</FormLabel>
                         <Input
                           {...field}
+                          name="email"
                           type="email"
-                          placeholder="name@example.com"
-                          rounded="lg"
-                          size="lg"
-                          focusBorderColor="blue.400"
-                        />
+                          placeholder="Enter your email...."
+                        />{" "}
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
-
                   <Field name="password">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel fontWeight="medium" color="blue.700">
-                          Password
-                        </FormLabel>
+                        <FormLabel htmlFor="password">Password</FormLabel>
                         <Input
                           {...field}
+                          name="password"
                           type="password"
-                          placeholder="••••••••"
-                          rounded="lg"
-                          size="lg"
-                          focusBorderColor="blue.400"
-                        />
+                          placeholder="Enter your password...."
+                        />{" "}
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <HStack justify="space-between" fontSize="sm">
-                    <Checkbox colorScheme="blue">Remember me</Checkbox>
+                  <HStack justify="space-between">
+                    <Checkbox>
+                      <Text textStyle="p3">Remember me</Text>
+                    </Checkbox>
+
                     <Link to="/forgot-password">
-                      <Text
-                        as="span"
-                        color="blue.500"
-                        fontWeight="medium"
-                        _hover={{ textDecoration: "underline" }}
-                      >
+                      <Text textStyle="p3" as="span" color="p.purple">
                         Forgot password?
                       </Text>
                     </Link>
                   </HStack>
-
                   <Box>
-                    <Button
-                      isLoading={isLoading}
-                      w="full"
-                      type="submit"
-                      size="lg"
-                      colorScheme="blue"
-                      rounded="lg"
-                      shadow="md"
-                    >
+                    <Button isLoading={isLoading} w="full" type="submit">
                       Login
                     </Button>
                     <Link to="/signup">
-                      <Button
-                        variant="outline"
-                        mt="3"
-                        w="full"
-                        size="lg"
-                        colorScheme="blue"
-                        rounded="lg"
-                      >
+                      <Button variant="outline" mt="3" w="full">
                         Create Account
                       </Button>
                     </Link>
