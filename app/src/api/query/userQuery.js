@@ -8,9 +8,10 @@ export const signinUser = async ({ password, email }) => {
       password,
       email,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
 export const signupUser = async ({ password, email, firstName, lastName }) => {
@@ -21,9 +22,10 @@ export const signupUser = async ({ password, email, firstName, lastName }) => {
       firstName,
       lastName,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
 export const sendVerificationMail = async ({ email }) => {
@@ -31,9 +33,10 @@ export const sendVerificationMail = async ({ email }) => {
     const { data } = await Axios.post(`${USER_URL}/send-verification-mail`, {
       email,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
 export const sendForgotMail = async ({ email }) => {
@@ -41,9 +44,10 @@ export const sendForgotMail = async ({ email }) => {
     const { data } = await Axios.post(`${USER_URL}/forgot-password`, {
       email,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
 export const verfiyEmailAddressSignup = async ({ token }) => {
@@ -51,9 +55,10 @@ export const verfiyEmailAddressSignup = async ({ token }) => {
     const { data } = await Axios.post(`${USER_URL}/verfiy-user-mail`, {
       token,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
 export const verfiyForgotToken = async ({ token, password }) => {
@@ -62,8 +67,10 @@ export const verfiyForgotToken = async ({ token, password }) => {
       token,
       password,
     });
-    return data;
+    return data?.data ?? data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    const message = error?.response?.data?.message || error?.message || "Request failed";
+    throw new Error(message);
   }
 };
+

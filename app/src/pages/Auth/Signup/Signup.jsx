@@ -1,3 +1,4 @@
+// src/pages/auth/Signup.jsx
 import {
   Center,
   Container,
@@ -43,15 +44,27 @@ const Signup = () => {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["signup"],
     mutationFn: signupUser,
-    onSuccess: () => {
-      if (email) navigate(`/register-email-verify/${email}`);
+    onSuccess: (data) => {
+      // normalize common success shapes
+      // data may be { token, user } or nested etc.
+      // we only need email to navigate in this flow
+      if (email) {
+        navigate(`/register-email-verify/${email}`);
+      } else {
+        toast({
+          title: "Signed up",
+          description: "Account created. Please verify your email.",
+          status: "success",
+        });
+      }
     },
     onError: (error) => {
       toast({
         title: "SignUp Error",
-        description: error.message,
+        description: error?.message || "Something went wrong. Please try again.",
         status: "error",
       });
+      console.error("Signup error:", error);
     },
   });
 
@@ -59,14 +72,20 @@ const Signup = () => {
     <Container maxW="lg" bg="gray.100" minH="100vh" p={0}>
       <Center minH="100vh">
         <Card p={8} shadow="2xl" rounded="3xl" bg="gray.50" w="full">
-          <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2} color="green.600">
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            textAlign="center"
+            mb={2}
+            color="green.600"
+          >
             Welcome to Crypto App 🚀
           </Text>
           <Text fontSize="sm" color="gray.500" textAlign="center" mb={6}>
             Create a free account by filling in the details below
           </Text>
 
-          {/* Solana Info Card */}
+          {/* Solana Info Card (visual only) */}
           <Flex
             align="center"
             justify="space-between"
@@ -100,6 +119,7 @@ const Signup = () => {
               password: "",
               repeatPassword: "",
             }}
+            validationSchema={signupValidationSchema}
             onSubmit={(values) => {
               setEmail(values.email);
               mutate({
@@ -109,16 +129,17 @@ const Signup = () => {
                 password: values.password,
               });
             }}
-            validationSchema={signupValidationSchema}
           >
             {() => (
               <Form>
                 <Stack spacing={5}>
-                  <Flex gap="4">
+                  <HStack gap={4}>
                     <Field name="name">
                       {({ field, meta }) => (
                         <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                          <FormLabel fontWeight="medium" color="green.700">Name</FormLabel>
+                          <FormLabel fontWeight="medium" color="green.700">
+                            Name
+                          </FormLabel>
                           <Input
                             {...field}
                             placeholder="Enter your name"
@@ -134,7 +155,9 @@ const Signup = () => {
                     <Field name="surname">
                       {({ field, meta }) => (
                         <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                          <FormLabel fontWeight="medium" color="green.700">Surname</FormLabel>
+                          <FormLabel fontWeight="medium" color="green.700">
+                            Surname
+                          </FormLabel>
                           <Input
                             {...field}
                             placeholder="Enter your surname"
@@ -146,12 +169,14 @@ const Signup = () => {
                         </FormControl>
                       )}
                     </Field>
-                  </Flex>
+                  </HStack>
 
                   <Field name="email">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel fontWeight="medium" color="green.700">Email</FormLabel>
+                        <FormLabel fontWeight="medium" color="green.700">
+                          Email
+                        </FormLabel>
                         <Input
                           {...field}
                           type="email"
@@ -168,7 +193,9 @@ const Signup = () => {
                   <Field name="password">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel fontWeight="medium" color="green.700">Password</FormLabel>
+                        <FormLabel fontWeight="medium" color="green.700">
+                          Password
+                        </FormLabel>
                         <Input
                           {...field}
                           type="password"
@@ -185,7 +212,9 @@ const Signup = () => {
                   <Field name="repeatPassword">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel fontWeight="medium" color="green.700">Repeat Password</FormLabel>
+                        <FormLabel fontWeight="medium" color="green.700">
+                          Repeat Password
+                        </FormLabel>
                         <Input
                           {...field}
                           type="password"
@@ -223,7 +252,11 @@ const Signup = () => {
                   <Text fontSize="sm" color="gray.500" textAlign="center">
                     Already have an account?{" "}
                     <Link to="/signin">
-                      <Text as="span" color="green.500" _hover={{ textDecoration: "underline" }}>
+                      <Text
+                        as="span"
+                        color="green.500"
+                        _hover={{ textDecoration: "underline" }}
+                      >
                         Login
                       </Text>
                     </Link>
