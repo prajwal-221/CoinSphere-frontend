@@ -58,7 +58,7 @@ const Signin = () => {
               bgGradient="linear(to-r, purple.400, blue.400)"
               bgClip="text"
             >
-              Solana App
+              Bitcoin App
             </Text>
             <Text color="gray.400" fontSize="md">
               Enter your credentials to access your account.
